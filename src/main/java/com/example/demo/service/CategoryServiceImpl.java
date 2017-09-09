@@ -3,7 +3,10 @@ package com.example.demo.service;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.PermissionDeniedDataAccessException;
@@ -23,11 +26,18 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public void addCategory(long parentId, Category cat, User owner) {
-		Category persistedCategory = categoryRepository.findOne(parentId);
-		if (persistedCategory.getOwner().getId() == owner.getId()) {
+		if (parentId == -1) {
 			categoryRepository.save(cat);
+			
 		} else {
-			throw new PermissionDeniedDataAccessException(owner.getUsername() + " has no permissions", null);
+			Category persistedCategory = categoryRepository.findOne(parentId);
+			if (persistedCategory.getOwner().getId() == owner.getId()) {
+				cat.setOwner(owner);
+				cat.setParent(persistedCategory);
+				categoryRepository.save(cat);
+			} else {
+				throw new PermissionDeniedDataAccessException(owner.getUsername() + " has no permissions", null);
+			}
 		}
 	}
 
@@ -91,6 +101,35 @@ public class CategoryServiceImpl implements CategoryService {
 
 		}
 		
+	}
+	
+	@Override
+	public Category findByNameAndOwner(String name, User owner) {
+		Category cat = categoryRepository.findByNameAndOwner(name, owner);
+		List<Picture> pictures = categoryRepository.findPicturesOfCategory(cat); 
+		cat.setPictures(pictures);
+		return cat;
+	}
+	
+	@Override
+	public Category findById(Long id) {
+		Category cat =  categoryRepository.findById(id);
+		List<Picture> pictures = categoryRepository.findPicturesOfCategory(cat); 
+		cat.setPictures(pictures);
+		return cat;
+	}
+	
+	@Override
+	public List<Map<String,String>> relativePath(Category cat) {
+		List<Map<String,String>> path = new ArrayList<>();
+		while (cat != null) {
+			Map<String,String> category = new HashMap<>();
+			category.put("id", Long.toString(cat.getId()));
+			category.put("name", cat.getName());
+			path.add(0, category);
+			cat = cat.getParent();
+		}
+		return path;
 	}
 	
 }

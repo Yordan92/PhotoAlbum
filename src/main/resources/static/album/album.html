@@ -1,0 +1,105 @@
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-lg-3">
+
+      <h1 class="my-4">Categories</h1>
+      <div class="list-group">
+        <a ng-class="{'list-group-item': $first,'list-group-item-inner': !$first}" ng-repeat="category in categories.relativePath"
+          ng-click="goToCategory(category)">{{category.name}}</a>
+      </div>
+
+    <!-- /.col-lg-3 -->
+    	<label class="col-md-4">New Category Name</label>
+        <input type="text" class="form-control" name="name" placeholder="name" required="" autofocus="" ng-model="category.name"/>
+	    <button type="button" ng-click="categoryModal(category)" class="btn btn-primary btn-lg btn-block"> Add folder</button>
+	    
+	    <label class="col-md-4">Image Name</label>
+        <input type="text" class="form-control" name="name" placeholder="name" required="" autofocus="" ng-model="image.name"/>
+        <label class="col-md-4">Description</label>
+        <input type="text" class="form-control" name="name" placeholder="name" required="" autofocus="" ng-model="image.description"/>
+        <input type="file" id="file"/>
+        
+	    <button type="button" ng-click="addImage()" class="btn btn-primary btn-lg btn-block"> Add Image</button>
+    </div>
+    <div class="row">
+
+      <div ng-repeat="child in categories.children" class="col-lg-4 col-md-4 mb-4">
+        <div class="card h-100" ng-click="goToCategory(child)">
+          <a><img class="card-img-top" src="/images/directory.png" alt="" style="height: 180px; width: 180px;"></a>
+          <div class="card-body">
+            <h4 class="card-title">
+              <a>{{child.name}}</a>
+            </h4>
+          </div>
+          <div class="card-footer">
+            <button>Delete</button>
+            <button>Edit</button>
+          </div>
+        </div>
+      </div>
+      <div ng-repeat="picture in categories.pictures" class="col-lg-4 col-md-4 mb-4">
+        <div class="card h-100">
+          <a href="#"><img class="card-img-top" src="/getImage/{{picture.path}}" alt="" style="height: 180px; width: 180px;"></a>
+          <div class="card-footer" style="margin-top: 38px;">
+            <button>Delete</button>
+            <button>Edit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+ 
+
+  </div>
+  <!-- /.col-lg-9 -->
+
+</div>
+<!-- /.row -->
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+  <div class="container">
+    <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+  </div>
+  <!-- /.container -->
+</footer>
+
+<script>
+  /*  var result = {
+            name: "root",
+            isDir: true,
+            parent: null,
+            id: 'root',
+            children: [
+                {
+                    name: "Yorda",
+                    isDir: true,
+                    parent: 'root',
+                    id: 'yorda',
+                    childre: [], 
+                },
+                {
+                    name:"picture1",
+                    isDir: false,
+                    description: "Some description",
+                    date: "08.05.2017",
+                    path:"images/pictor1.jpg",
+                    category:{}
+                }
+            ]
+        };*/
+  var param = _getParameter("q", window.location.href);
+  if (param === null) {
+    openCategory('root');
+  }
+  else {
+    openCategory(param);
+  }
+
+</script>

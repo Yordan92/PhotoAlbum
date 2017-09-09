@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "picture")
 public class Picture extends GeneralEntity{
@@ -29,6 +31,7 @@ public class Picture extends GeneralEntity{
 	@Column(name = "path")
 	private String path;
 	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name="category_id")
 	private Category category;

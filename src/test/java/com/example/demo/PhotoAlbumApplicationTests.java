@@ -7,6 +7,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,6 +20,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.example.demo.model.Category;
 import com.example.demo.model.User;
 import com.example.demo.repository.*;
+import com.example.demo.service.CategoryService;
+
 import java.util.Objects;
 
 @RunWith(SpringRunner.class)
@@ -31,15 +34,17 @@ public class PhotoAlbumApplicationTests {
 	@Autowired
 	CategoryRepository categoryRepository;
 	
+	@Autowired
+	CategoryService catService;
 	@Before
 	public void initDBContent() {
-		User testUser = new User("Test", "Testov", "testovi", "t@t", "t@t");
-		repository.save(testUser);
-		Category cat = new Category(null, "root",testUser);
-		Category cat1_1 = new Category(cat, "cat1_1",testUser);
-		Category cat1_2 = new Category(cat, "cat1_2",testUser);
-		Category cat2_1 = new Category(cat1_2, "cat2_1",testUser);
-		categoryRepository.save(Arrays.asList(cat, cat1_1, cat1_2, cat2_1));
+//		User testUser = new User("Test", "Testov", "testovi", "t@t", "t@t");
+//		repository.save(testUser);
+//		Category cat = new Category(null, "root",testUser);
+//		Category cat1_1 = new Category(cat, "cat1_1",testUser);
+//		Category cat1_2 = new Category(cat, "cat1_2",testUser);
+//		Category cat2_1 = new Category(cat1_2, "cat2_1",testUser);
+//		categoryRepository.save(Arrays.asList(cat, cat1_1, cat1_2, cat2_1));
 //		categoryRepository.save(Arrays.asList(cat, cat1_2, cat2_1));
 
 		
@@ -61,19 +66,21 @@ public class PhotoAlbumApplicationTests {
 	
 	@Test
 	public void checkCategories() {
-		Category cat = categoryRepository.findByName("root");
-		System.out.println(cat.getChildren());
+		User user = repository.findOne((long) 212);
+		
+		List<Category> cat = catService.findByNameAndOwner("Ivancho", user).getChildren();
+		System.out.println(cat);
 	}
 	
 	@After
 	public void deleteData() {
-		User[] testUser = { repository.findByUsername("testovi"), repository.findByUsername("aaaa") } ;
-		
-		Arrays.stream(testUser)
-			.filter(user -> user != null)
-			.forEach(user -> {
-				repository.delete(user);
-			});
+//		User[] testUser = { repository.findByUsername("testovi"), repository.findByUsername("aaaa") } ;
+//		
+//		Arrays.stream(testUser)
+//			.filter(user -> user != null)
+//			.forEach(user -> {
+//				repository.delete(user);
+//			});
 //		
 	}
 

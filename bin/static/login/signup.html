@@ -1,0 +1,15 @@
+<div class="wrapper">
+    <form name="signUpForm" ng-submit="signUp()" class="form-signin">
+        <h2 class="form-signin-heading">New to PhotoAlbum? Sign up!</h2>
+        <input class="form-control" name="email" placeholder="Email" type="text" ng-model="user.email">
+        <input class="form-control" name="firstName" placeholder="First Name" type="text" ng-model="user.firstName">
+        <input class="form-control" name="lastName" placeholder="Last Name" type="text" ng-model="user.lastName">
+        <input class="form-control" name="username" placeholder="Username" type="username" ng-model="user.username">
+        <input class="form-control" name="password" placeholder="Password" type="password" ng-model="user.password">
+        <div ng-show="signUpForm.$error.passwordsDoNotMach" class="alert alert-danger" role="alert">
+           Mismatch in passwords
+        </div>
+        <input class="form-control" name="password" placeholder="ConfirmPassword" type="password" ng-model="user.confirmPassword">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up in PhotoAlbum</button>
+    </form>
+</div>

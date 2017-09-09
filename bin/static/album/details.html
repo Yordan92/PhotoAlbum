@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Categories</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/index.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+    <div class="left">
+        <img class="card-img-top-details" src=""/>
+    </div>
+    <div class="right">
+        <h1></h1>
+        <p>Description: </p>
+        <h5>Date: </h5>
+    </div>
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/popper/popper.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="index.js"></script>
+    <script>
+        var name = _getParameter("name", window.location.href);
+        $('h1').append(name);
+        var description = _getParameter("description", window.location.href);
+        $('p').append(description);
+        var date = _getParameter("date", window.location.href);
+        $('h5').append(date);
+        var imagePath = _getParameter("path", window.location.href);
+        $('.card-img-top-details').attr('src',imagePath);
+    </script>
+
+  </body>
+
+</html>

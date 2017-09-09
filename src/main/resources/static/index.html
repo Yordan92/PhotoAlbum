@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" class="no-js">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>My AngularJS App</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="app.css">
+  <!-- Bootstrap core CSS -->
+  <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/index.css" rel="stylesheet">
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+ 
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  
+  <script src="album/index.js"></script>
+  <script src="node_modules/angular/angular.js"></script>
+  <script src="node_modules/angular-route/angular-route.js"></script>
+  <script src="node_modules/angular-resource/angular-resource.min.js"></script>
+  <script src="node_modules/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="node_modules/angular-bootstrap-modal/dist/angular-bootstrap-modal.js"></script>
+  <script src="app.js"></script>
+  <script src="login/userFactory.js"></script>
+  <script src="login/userCtrl.js"></script> 
+  <script src="album/albumCtrl.js"></script>
+  <script src="modal/modalCtrl.js"></script>
+  <script>
+  app.controller('InitController', ['UserFactory', 'CurrentUser','$scope', function(UserFactory, CurrentUser, $scope) {
+		$scope.user = new UserFactory();
+		$scope.user.$current().then(function (user) {
+			angular.copy(user, CurrentUser);
+		});
+		
+		$scope.userExists = function() {
+			return CurrentUser.id 
+		}
+	}]);
+  </script>
+</head>
+
+<body ng-controller="InitController">
+  <ul class="menu">
+  	<li><a ng-href="/">Home</a></li>
+  	<li ng-if="!userExists()"><a ng-href="#!/login">LogIn</a></li>
+  	<li ng-if="!userExists()"><a ng-href="#!/signup">SignUp</a></li>
+  	<li ng-if="userExists()"><a ng-href="#!/edit">Edit</a></li>
+    <li ng-if="userExists()"><a ng-href="#!/album">ShowAlbum</a></li>
+    <li ng-if="userExists()"><a ng-href="/user/logout">LogOut</a></li>
+  </ul>
+
+  <div ng-view></div>
+
+</body>
+
+</html>
